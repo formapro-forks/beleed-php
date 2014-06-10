@@ -1,7 +1,7 @@
 <?php
 namespace Beleed\Client;
 
-use Beleed\Client\Exception\Http\HttpException;
+use Beleed\Client\Exception\HttpException;
 use Beleed\Client\Exception\LogicException;
 use Beleed\Client\Model\Opportunity;
 use Beleed\Client\Model\Organization;
@@ -46,7 +46,7 @@ class Client
      */
     public function createProduct(Product $product)
     {
-        $rawProduct = $this->doHttpRequest('POST', 'api/v1/products', $product);
+        $rawProduct = $this->doHttpRequest('POST', 'api/v1/products', array('product' => $product));
 
         return $this->copyStdClassPropertiesToModel($rawProduct, $product);
     }
@@ -94,7 +94,7 @@ class Client
      */
     public function createOpportunity(Opportunity $opportunity)
     {
-        $rawOpportunity = $this->doHttpRequest('POST', 'api/v1/opportunities', array('data' => $opportunity));
+        $rawOpportunity = $this->doHttpRequest('POST', 'api/v1/opportunities', array('opportunity' => $opportunity));
 
         return $this->copyStdClassPropertiesToModel($rawOpportunity, $opportunity);
     }
@@ -124,6 +124,7 @@ class Client
         $request = new Request($method);
         $request->fromUrl($this->baseUrl . '/' . $relativeUrl);
         $request->addHeader("Authorization: Bearer {$this->accessToken}");
+        $request->addHeader("Content-Type: application/json; charset=UTF-8");
         $request->addHeader('Accept: application/json');
 
         if ($content) {
