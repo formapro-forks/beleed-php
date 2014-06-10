@@ -17,6 +17,10 @@
         </testsuite>
     </testsuites>
 
+    <php>
+        <var name="BELEED_ACCESS_TOKEN" value="" />
+    </php>
+
     <filter>
     <whitelist>
         <directory>./src</directory>
