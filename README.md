@@ -1,6 +1,51 @@
 # Beleed PHP client
 
-## Create opportunity
+## Create and fetch product
+
+```php
+<?php
+
+use Beleed\Client\Client;
+use Beleed\Client\Model\Product;
+use Buzz\Client\Curl;
+
+$product = new Product;
+$product->name = 'theProdName';
+$product->price = '99';
+
+$client = new Client(new Curl, $accessToken);
+
+$client->createProduct($product);
+
+echo $product->id;
+
+$fetchedProduct = $client->fetchProduct($product->id);
+```
+
+## Create and fetch organization
+
+```php
+<?php
+
+use Beleed\Client\Client;
+use Beleed\Client\Model\Organization;
+use Buzz\Client\Curl;
+
+$organization = new Organization;
+$organization->name = 'theOrgName';
+$organization->description = 'theOrgDesc';
+$organization->url = 'http://theorg.url';
+
+$client = new Client(new Curl, $accessToken);
+
+$client->createOrganization($organization);
+
+echo $organization->id;
+
+$fetchedOrganization = $client->fetchOrganization($organization->id);
+```
+
+## Create and fetch opportunity
 
 ```php
 <?php
@@ -34,5 +79,5 @@ $client->createOpportunity($opportunity);
 
 echo $opportunity->id;
 
-$client->fetchOpportunity($opportunity->id);
+$fetchedOpportunity = $client->fetchOpportunity($opportunity->id);
 ```
