@@ -70,7 +70,7 @@ class Client
      */
     public function createOrganization(Organization $organization)
     {
-        $rawOrganization = $this->doHttpRequest('POST', 'api/v1/organizations', $organization);
+        $rawOrganization = $this->doHttpRequest('POST', 'api/v1/organizations', array('organization' => $organization));
 
         return $this->copyStdClassPropertiesToModel($rawOrganization, $organization);
     }
@@ -128,10 +128,10 @@ class Client
         $request->addHeader('Accept: application/json');
 
         if ($content) {
-            $request->setContent(json_encode(array_filter($content)));
+            $request->setContent(json_encode(array_filter((array) $content)));
         }
 
-//        echo $request; die;
+//        var_dump((string) $request);die;
         $this->httpClient->send($request, $response);
 
         return $this->getResult($response);

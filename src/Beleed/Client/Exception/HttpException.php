@@ -1,7 +1,5 @@
 <?php
-namespace Beleed\Client\Exception\Http;
-
-use Beleed\Client\Exception\BeleedException;
+namespace Beleed\Client\Exception;
 
 class HttpException extends \RuntimeException implements BeleedException
 {
