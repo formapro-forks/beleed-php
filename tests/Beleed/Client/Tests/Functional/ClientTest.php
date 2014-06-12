@@ -87,9 +87,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($organization->url, $actualOrganization->url);
     }
 
-    /**
-     * @group d
-     */
     public function testCreateOpportunityWithNewOrganizationAndProduct()
     {
         $organization = new Organization;
@@ -141,6 +138,39 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $opportunity->value = '500';
         $opportunity->organization = $organization;
         $opportunity->product = $product;
+
+        $actualOpportunity = self::$client->createOpportunity($opportunity);
+
+        $this->assertSame($opportunity, $actualOpportunity);
+
+        $this->assertNotEmpty($opportunity->id);
+        $this->assertNotEmpty($opportunity->comment);
+        $this->assertNotEmpty($opportunity->status);
+        $this->assertNotEmpty($opportunity->confidence);
+        $this->assertNotEmpty($opportunity->value);
+
+        $this->assertSame($organization, $opportunity->organization);
+        $this->assertNotEmpty($organization->id);
+
+        $this->assertSame($product, $opportunity->product);
+        $this->assertNotEmpty($product->id);
+
+        return $opportunity;
+    }
+
+    /**
+     * @depends testCreateProduct
+     * @depends testCreateOrganization
+     */
+    public function testCreateOpportunityWithExistOrganizationAndProductUsingIdsOnly(Product $product, Organization $organization)
+    {
+        $opportunity = new Opportunity;
+        $opportunity->comment = 'aComment';
+        $opportunity->status = 'active';
+        $opportunity->confidence = '50';
+        $opportunity->value = '500';
+        $opportunity->organization_id = $organization->id;
+        $opportunity->product_id = $product->id;
 
         $actualOpportunity = self::$client->createOpportunity($opportunity);
 

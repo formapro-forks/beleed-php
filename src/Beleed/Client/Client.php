@@ -106,7 +106,11 @@ class Client
     {
         $rawOpportunity = $this->doHttpRequest('GET', sprintf('api/v1/opportunities/%s', $id));
 
-        return $this->copyStdClassPropertiesToModel($rawOpportunity, new Opportunity);
+        $opportunity = $this->copyStdClassPropertiesToModel($rawOpportunity, new Opportunity);
+        $opportunity->product = $this->copyStdClassPropertiesToModel($opportunity->product, new Product);
+        $opportunity->organization = $this->copyStdClassPropertiesToModel($opportunity->organization, new Organization);
+
+        return $opportunity;
     }
 
     /**
@@ -131,7 +135,6 @@ class Client
             $request->setContent(json_encode(array_filter((array) $content)));
         }
 
-//        var_dump((string) $request);die;
         $this->httpClient->send($request, $response);
 
         return $this->getResult($response);
