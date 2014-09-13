@@ -1,15 +1,15 @@
 <?php
 namespace Beleed\Client\Tests\Model;
 
-use Beleed\Client\Model\Organization;
+use Beleed\Client\Model\Contact;
 
-class OrganizationTest extends \PHPUnit_Framework_TestCase
+class ContactTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
     public function couldBeConstructedWithoutAnyArguments()
     {
-        new Organization;
+        new Contact;
     }
 }

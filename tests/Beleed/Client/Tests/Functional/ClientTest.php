@@ -3,7 +3,7 @@ namespace Beleed\Client\Tests\Functional;
 
 use Beleed\Client\Client;
 use Beleed\Client\Model\Opportunity;
-use Beleed\Client\Model\Organization;
+use Beleed\Client\Model\Contact;
 use Beleed\Client\Model\Product;
 use Buzz\Client\Curl;
 
@@ -55,44 +55,44 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($product->price, $actualProduct->price);
     }
 
-    public function testCreateOrganization()
+    public function testCreateContact()
     {
-        $organization = new Organization;
-        $organization->name = 'theOrgName'.time().uniqid();
-        $organization->description = 'theOrgDesc';
-        $organization->url = 'http://theorg.url';
+        $contact = new Contact;
+        $contact->name = 'theOrgName'.time().uniqid();
+        $contact->description = 'theOrgDesc';
+        $contact->url = 'http://theorg.url';
 
-        $actualOrganization = self::$client->createOrganization($organization);
+        $actualContact = self::$client->createContact($contact);
 
-        $this->assertSame($organization, $actualOrganization);
+        $this->assertSame($contact, $actualContact);
 
-        $this->assertNotEmpty($organization->id);
-        $this->assertNotEmpty($organization->name);
-        $this->assertNotEmpty($organization->url);
-        $this->assertNotEmpty($organization->description);
+        $this->assertNotEmpty($contact->id);
+        $this->assertNotEmpty($contact->name);
+        $this->assertNotEmpty($contact->url);
+        $this->assertNotEmpty($contact->description);
 
-        return $organization;
+        return $contact;
     }
 
     /**
-     * @depends testCreateOrganization
+     * @depends testCreateContact
      */
-    public function testFetchOrganization(Organization $organization)
+    public function testFetchContact(Contact $contact)
     {
-        $actualOrganization = self::$client->fetchOrganization($organization->id);
+        $actualContact = self::$client->fetchContact($contact->id);
 
-        $this->assertEquals($organization->id, $actualOrganization->id);
-        $this->assertEquals($organization->name, $actualOrganization->name);
-        $this->assertEquals($organization->description, $actualOrganization->description);
-        $this->assertEquals($organization->url, $actualOrganization->url);
+        $this->assertEquals($contact->id, $actualContact->id);
+        $this->assertEquals($contact->name, $actualContact->name);
+        $this->assertEquals($contact->description, $actualContact->description);
+        $this->assertEquals($contact->url, $actualContact->url);
     }
 
-    public function testCreateOpportunityWithNewOrganizationAndProduct()
+    public function testCreateOpportunityWithNewContactAndProduct()
     {
-        $organization = new Organization;
-        $organization->name = 'theOrgName'.time().uniqid();
-        $organization->description = 'theOrgDesc';
-        $organization->url = 'http://theorg.url';
+        $contact = new Contact;
+        $contact->name = 'theOrgName'.time().uniqid();
+        $contact->description = 'theOrgDesc';
+        $contact->url = 'http://theorg.url';
 
         $product = new Product;
         $product->name = 'theProdName';
@@ -100,10 +100,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $opportunity = new Opportunity;
         $opportunity->comment = 'aComment';
-        $opportunity->status = 'active';
         $opportunity->confidence = '50';
         $opportunity->value = '500';
-        $opportunity->organization = $organization;
+        $opportunity->contact = $contact;
         $opportunity->product = $product;
 
         $actualOpportunity = self::$client->createOpportunity($opportunity);
@@ -112,31 +111,30 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($opportunity->id);
         $this->assertNotEmpty($opportunity->comment);
-        $this->assertNotEmpty($opportunity->status);
+        $this->assertEquals($opportunity->status, 0);
         $this->assertNotEmpty($opportunity->confidence);
         $this->assertNotEmpty($opportunity->value);
 
-        $this->assertSame($organization, $opportunity->organization);
-        $this->assertNotEmpty($organization->id);
+        // $this->assertSame($contact, $opportunity->contact);
+        $this->assertNotEmpty($opportunity->contact->id);
 
-        $this->assertSame($product, $opportunity->product);
-        $this->assertNotEmpty($product->id);
+        // $this->assertSame($product, $opportunity->product);
+        $this->assertNotEmpty($opportunity->product->id);
 
         return $opportunity;
     }
 
     /**
      * @depends testCreateProduct
-     * @depends testCreateOrganization
+     * @depends testCreateContact
      */
-    public function testCreateOpportunityWithExistOrganizationAndProduct(Product $product, Organization $organization)
+    public function testCreateOpportunityWithExistContactAndProduct(Product $product, Contact $contact)
     {
         $opportunity = new Opportunity;
         $opportunity->comment = 'aComment';
-        $opportunity->status = 'active';
         $opportunity->confidence = '50';
         $opportunity->value = '500';
-        $opportunity->organization = $organization;
+        $opportunity->contact = $contact;
         $opportunity->product = $product;
 
         $actualOpportunity = self::$client->createOpportunity($opportunity);
@@ -145,14 +143,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($opportunity->id);
         $this->assertNotEmpty($opportunity->comment);
-        $this->assertNotEmpty($opportunity->status);
+        $this->assertEquals($opportunity->status, 0);
         $this->assertNotEmpty($opportunity->confidence);
         $this->assertNotEmpty($opportunity->value);
 
-        $this->assertSame($organization, $opportunity->organization);
-        $this->assertNotEmpty($organization->id);
+        // $this->assertSame($contact, $opportunity->contact);
+        $this->assertNotEmpty($contact->id);
 
-        $this->assertSame($product, $opportunity->product);
+        // $this->assertSame($product, $opportunity->product);
         $this->assertNotEmpty($product->id);
 
         return $opportunity;
@@ -160,16 +158,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateProduct
-     * @depends testCreateOrganization
+     * @depends testCreateContact
      */
-    public function testCreateOpportunityWithExistOrganizationAndProductUsingIdsOnly(Product $product, Organization $organization)
+    public function testCreateOpportunityWithExistContactProductUsingIdsOnly(Product $product, Contact $contact)
     {
         $opportunity = new Opportunity;
         $opportunity->comment = 'aComment';
-        $opportunity->status = 'active';
         $opportunity->confidence = '50';
         $opportunity->value = '500';
-        $opportunity->organization_id = $organization->id;
+        $opportunity->contact_id = $contact->id;
         $opportunity->product_id = $product->id;
 
         $actualOpportunity = self::$client->createOpportunity($opportunity);
@@ -178,21 +175,21 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($opportunity->id);
         $this->assertNotEmpty($opportunity->comment);
-        $this->assertNotEmpty($opportunity->status);
+        $this->assertEquals($opportunity->status, 0);
         $this->assertNotEmpty($opportunity->confidence);
         $this->assertNotEmpty($opportunity->value);
 
-        $this->assertSame($organization, $opportunity->organization);
-        $this->assertNotEmpty($organization->id);
+        // $this->assertSame($contact, $opportunity->contact);
+        $this->assertNotEmpty($contact->id);
 
-        $this->assertSame($product, $opportunity->product);
+        // $this->assertSame($product, $opportunity->product);
         $this->assertNotEmpty($product->id);
 
         return $opportunity;
     }
 
     /**
-     * @depends testCreateOpportunityWithNewOrganizationAndProduct
+     * @depends testCreateOpportunityWithNewContactAndProduct
      */
     public function testFetchOpportunity(Opportunity $opportunity)
     {
@@ -204,7 +201,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Beleed\Client\Model\Product', $actualOpportunity->product);
         $this->assertEquals($opportunity->product->id, $actualOpportunity->product->id);
 
-        $this->assertInstanceOf('Beleed\Client\Model\Organization', $actualOpportunity->organization);
-        $this->assertEquals($opportunity->organization->id, $actualOpportunity->organization->id);
+        $this->assertInstanceOf('Beleed\Client\Model\Contact', $actualOpportunity->contact);
+        $this->assertEquals($opportunity->contact->id, $actualOpportunity->contact->id);
     }
 }

@@ -4,7 +4,7 @@ namespace Beleed\Client;
 use Beleed\Client\Exception\HttpException;
 use Beleed\Client\Exception\LogicException;
 use Beleed\Client\Model\Opportunity;
-use Beleed\Client\Model\Organization;
+use Beleed\Client\Model\Contact;
 use Beleed\Client\Model\Product;
 use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
@@ -36,7 +36,7 @@ class Client
         $this->httpClient = $httpClient;
         $this->accessToken = $accessToken;
 
-        $this->baseUrl = 'http://beleed.com';
+        $this->baseUrl = 'http://dev.crmail.com';
     }
 
     /**
@@ -64,27 +64,27 @@ class Client
     }
 
     /**
-     * @param Organization $organization
+     * @param Contact $contact
      *
-     * @return Organization
+     * @return Contact
      */
-    public function createOrganization(Organization $organization)
+    public function createContact(Contact $contact)
     {
-        $rawOrganization = $this->doHttpRequest('POST', 'api/v1/organizations', array('organization' => $organization));
+        $rawContact = $this->doHttpRequest('POST', 'api/v1/contacts', array('contact' => $contact));
 
-        return $this->copyStdClassPropertiesToModel($rawOrganization, $organization);
+        return $this->copyStdClassPropertiesToModel($rawContact, $contact);
     }
 
     /**
      * @param string $id
      *
-     * @return Organization
+     * @return Contact
      */
-    public function fetchOrganization($id)
+    public function fetchContact($id)
     {
-        $rawOrganization = $this->doHttpRequest('GET', sprintf('api/v1/organizations/%s', $id));
+        $rawContact = $this->doHttpRequest('GET', sprintf('api/v1/contacts/%s', $id));
 
-        return $this->copyStdClassPropertiesToModel($rawOrganization, new Organization);
+        return $this->copyStdClassPropertiesToModel($rawContact, new Contact);
     }
 
     /**
@@ -108,7 +108,7 @@ class Client
 
         $opportunity = $this->copyStdClassPropertiesToModel($rawOpportunity, new Opportunity);
         $opportunity->product = $this->copyStdClassPropertiesToModel($opportunity->product, new Product);
-        $opportunity->organization = $this->copyStdClassPropertiesToModel($opportunity->organization, new Organization);
+        $opportunity->contact = $this->copyStdClassPropertiesToModel($opportunity->contact, new Contact);
 
         return $opportunity;
     }
