@@ -1,4 +1,6 @@
 {
+    "name": "beleed/php-client",
+    "description": "Beleed PHP Client",
     "type": "library",
     "homepage": "http://beleed.com",
     "require": {
@@ -15,5 +17,4 @@
     "autoload": {
         "psr-0": { "Beleed": "src/" }
     }
-
 }

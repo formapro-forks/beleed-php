@@ -36,7 +36,7 @@ class Client
         $this->httpClient = $httpClient;
         $this->accessToken = $accessToken;
 
-        $this->baseUrl = 'http://dev.crmail.com';
+        $this->baseUrl = 'http://beleed.com';
     }
 
     /**
