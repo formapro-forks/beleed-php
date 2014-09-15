@@ -29,7 +29,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateProduct()
     {
         $product = new Product;
-        $product->name = 'test';
+        $product->name = 'test'.time().uniqid();
         $product->price = '1231';
 
         $actualProduct = self::$client->createProduct($product);
@@ -58,9 +58,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testCreateContact()
     {
         $contact = new Contact;
-        $contact->name = 'theOrgName'.time().uniqid();
+        $contact->name = 'contactName'.time().uniqid();
         $contact->description = 'theOrgDesc';
         $contact->url = 'http://theorg.url';
+        $contact->organization_name = 'theOrgName'.time().uniqid();
 
         $actualContact = self::$client->createContact($contact);
 
@@ -70,6 +71,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($contact->name);
         $this->assertNotEmpty($contact->url);
         $this->assertNotEmpty($contact->description);
+        $this->assertNotEmpty($contact->organization_name);
 
         return $contact;
     }
@@ -85,8 +87,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($contact->name, $actualContact->name);
         $this->assertEquals($contact->description, $actualContact->description);
         $this->assertEquals($contact->url, $actualContact->url);
+        // $this->assertEquals($contact->organization_name, $actualContact->organization_name);
     }
 
+    /**
+     * @depends testCreateProduct
+     * @depends testCreateContact
+     */
     public function testCreateOpportunityWithNewContactAndProduct()
     {
         $contact = new Contact;

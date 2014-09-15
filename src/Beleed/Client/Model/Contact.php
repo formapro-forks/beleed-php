@@ -7,6 +7,7 @@ class Contact
     public $name;
     public $email;
     public $email_wildcard_domain;
+    public $organization_name;
     public $phone;
     public $url;
     public $address;
