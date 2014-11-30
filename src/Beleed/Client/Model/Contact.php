@@ -15,7 +15,6 @@ class Contact
     public $city;
     public $position;
     public $birthday;
-    public $validated;
     public $tags;
     public $description;
 }
