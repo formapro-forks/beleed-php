@@ -11,6 +11,7 @@ class Opportunity
     public $comment;
     public $organization_name;
     public $value;
+    public $source;
 
     /**
      * @var Organization|null

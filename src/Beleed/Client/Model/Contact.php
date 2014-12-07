@@ -17,4 +17,5 @@ class Contact
     public $birthday;
     public $tags;
     public $description;
+    public $source;
 }
