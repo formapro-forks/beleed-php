@@ -96,6 +96,10 @@ class Client
     public function createOpportunity(Opportunity $opportunity)
     {
         $opportunity->source = "website";
+        if ($opportunity->contact) {
+            $opportunity->contact->source = "website";
+        }
+
         $rawOpportunity = $this->doHttpRequest('POST', 'api/v1/opportunities', array('opportunity' => $opportunity));
 
         return $this->copyStdClassPropertiesToModel($rawOpportunity, $opportunity);

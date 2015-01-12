@@ -14,9 +14,9 @@ class Opportunity
     public $source;
 
     /**
-     * @var Organization|null
+     * @var Contact|null
      */
-    public $organization;
+    public $contact;
 
     /**
      * @var Product|null
