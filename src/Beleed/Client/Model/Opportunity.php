@@ -22,4 +22,9 @@ class Opportunity
      * @var Product|null
      */
     public $product;
+
+    public function __construct()
+    {
+        $this->source = "website";
+    }
 }

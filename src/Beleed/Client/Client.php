@@ -70,7 +70,6 @@ class Client
      */
     public function createContact(Contact $contact)
     {
-        $contact->source = "website";
         $rawContact = $this->doHttpRequest('POST', 'api/v1/contacts', array('contact' => $contact));
 
         return $this->copyStdClassPropertiesToModel($rawContact, $contact);
@@ -95,11 +94,6 @@ class Client
      */
     public function createOpportunity(Opportunity $opportunity)
     {
-        $opportunity->source = "website";
-        if ($opportunity->contact) {
-            $opportunity->contact->source = "website";
-        }
-
         $rawOpportunity = $this->doHttpRequest('POST', 'api/v1/opportunities', array('opportunity' => $opportunity));
 
         return $this->copyStdClassPropertiesToModel($rawOpportunity, $opportunity);

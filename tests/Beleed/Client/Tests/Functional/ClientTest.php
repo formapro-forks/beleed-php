@@ -72,6 +72,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($contact->url);
         $this->assertNotEmpty($contact->description);
         $this->assertNotEmpty($contact->organization_name);
+        $this->assertNotEmpty($contact->shared);
 
         return $contact;
     }
@@ -87,6 +88,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($contact->name, $actualContact->name);
         $this->assertEquals($contact->description, $actualContact->description);
         $this->assertEquals($contact->url, $actualContact->url);
+        $this->assertEquals($contact->shared, $actualContact->shared);
         // $this->assertEquals($contact->organization_name, $actualContact->organization_name);
     }
 

@@ -18,4 +18,11 @@ class Contact
     public $tags;
     public $description;
     public $source;
+    public $shared;
+
+    public function __construct()
+    {
+        $this->source = "website";
+        $this->shared = true;
+    }
 }
