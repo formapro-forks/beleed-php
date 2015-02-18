@@ -36,7 +36,7 @@ class Client
         $this->httpClient = $httpClient;
         $this->accessToken = $accessToken;
 
-        $this->baseUrl = 'http://beleed.com';
+        $this->baseUrl = 'https://beleed.com';
     }
 
     /**
