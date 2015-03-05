@@ -60,7 +60,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $contact = new Contact;
         $contact->name = 'contactName'.time().uniqid();
         $contact->description = 'theOrgDesc';
-        $contact->url = 'http://theorg.url';
+        $contact->url = 'http://url.com';
         $contact->organization_name = 'theOrgName'.time().uniqid();
 
         $actualContact = self::$client->createContact($contact);
@@ -75,6 +75,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($contact->shared);
 
         return $contact;
+    }
+
+    /**
+     * @depends testCreateContact
+     */
+    public function testUpdateContact()
+    {
+        $contact = new Contact;
+        $contact->name = 'contactName'.time().uniqid();
+        $contact->description = 'theOrgDesc';
+        $contact->url = 'http://url.com';
+        $contact->organization_name = 'theOrgName'.time().uniqid();
+
+        self::$client->createContact($contact);
+        $contact->name = 'contactName.updated';
+        self::$client->updateContact($contact);
+        $actualContact = self::$client->fetchContact($contact->id);
+
+        $this->assertSame($contact->name, $actualContact->name);
     }
 
     /**
@@ -101,7 +120,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $contact = new Contact;
         $contact->name = 'theOrgName'.time().uniqid();
         $contact->description = 'theOrgDesc';
-        $contact->url = 'http://theorg.url';
+        $contact->url = 'http://url.com';
 
         $product = new Product;
         $product->name = 'theProdName';

@@ -76,6 +76,16 @@ class Client
     }
 
     /**
+     * @param Contact $contact
+     *
+     * @return Contact
+     */
+    public function updateContact(Contact $contact)
+    {
+        $this->doHttpRequest('PATCH', 'api/v1/contacts/' . $contact->id, array('contact' => $contact));
+    }
+
+    /**
      * @param string $id
      *
      * @return Contact
