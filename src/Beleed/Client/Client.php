@@ -98,6 +98,26 @@ class Client
     }
 
     /**
+     * @param $id
+     */
+    public function deleteContact($id)
+    {
+        $this->doHttpRequest('DELETE', sprintf('api/v1/contacts/%s', $id));
+    }
+
+    /**
+     * @param $email
+     *
+     * @return Contact
+     */
+    public function fetchContactByEmail($email)
+    {
+        $rawContact = $this->doHttpRequest('GET', sprintf('api/v1/contacts/email/%s', $email));
+
+        return $this->copyStdClassPropertiesToModel($rawContact, new Contact);
+    }
+
+    /**
      * @param Opportunity $opportunity
      *
      * @return Opportunity

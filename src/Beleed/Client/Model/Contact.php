@@ -19,10 +19,12 @@ class Contact
     public $description;
     public $source;
     public $shared;
+    public $sessions;
 
     public function __construct()
     {
         $this->source = "website";
         $this->shared = true;
+        $this->sessions = 0;
     }
 }
