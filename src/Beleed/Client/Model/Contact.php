@@ -25,6 +25,6 @@ class Contact
     {
         $this->source = "website";
         $this->shared = true;
-        $this->sessions = 0;
+        $this->sessions = 1;
     }
 }

@@ -112,7 +112,7 @@ class Client
      */
     public function fetchContactByEmail($email)
     {
-        $rawContact = $this->doHttpRequest('GET', sprintf('api/v1/contacts/email/%s', $email));
+        $rawContact = $this->doHttpRequest('GET', sprintf('api/v1/contacts/%s', $email));
 
         return $this->copyStdClassPropertiesToModel($rawContact, new Contact);
     }
